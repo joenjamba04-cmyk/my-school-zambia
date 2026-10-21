@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My School Zambia - Kalabo</title>
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiTXkgU2Nob29sIFphbWJpYSBLYWxhYm8iLCJzaG9ydF9uYW1lIjoiTXlTY2hvb2xaTSIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMWE4NTNmIiwiVGhlbWVfY29sb3IiOiIjMWE4NTNmIiwiaWNvbnMiOlt7InNyYyI6Imh0dHBzOi8vY2RuLmljb25zY291dC5jb20vcmVzZXRzL3YxLzI1MS9pY29ucy9zY2hvb2wucG5nIiwic2l6ZXMiOiI1MTJ4NTEyIiwidHlwZSI6ImltYWdlL3BuZyJ9XX0=">
+<meta name="theme-color" content="#1a853f">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f0f7f0}
+.header{background:#1a853f;color:white;padding:20px;text-align:center}
+.header h1{font-size:28px}
+.header p{opacity:0.9;margin-top:5px}
+.install-box{background:#ffcc00;color:#000;padding:15px;text-align:center;display:block;font-weight:bold}
+.install-box button{background:#1a853f;color:white;border:none;padding:12px 25px;border-radius:8px;font-size:16px;margin-top:10px}
+.card{background:white;margin:15px;padding:18px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.card h2{color:#1a853f;margin-bottom:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.item{background:#e8f5e9;padding:12px;border-radius:8px;text-align:center;font-weight:bold}
+.footer{background:#1a853f;color:white;text-align:center;padding:15px;margin-top:20px}
+a{color:#1a853f}
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>🎓 My School Zambia</h1>
+<h2>Kalabo District</h2>
+<p>Education for a Brighter Zambia</p>
+</div>
+
+<div id="installPrompt" class="install-box">
+📲 Install this App on your Phone!
+<br>
+<button id="installBtn">INSTALL APP</button>
+<p style="font-size:12px;margin-top:8px;font-weight:normal">For iPhone: Tap Share → Add to Home Screen</p>
+</div>
+
+<div class="card">
+<h2>🏫 Welcome to My School Zambia</h2>
+<p>We are a school in <b>Kalabo, Western Province, Zambia</b>. We provide quality education for all learners from Grade 1 to Grade 12.</p>
+<p style="margin-top:10px"><b>Motto:</b> Knowledge is Power - Zambezi Pride</p>
+</div>
+
+<div class="card">
+<h2>📚 Subjects Offered</h2>
+<div class="grid">
+<div class="item">Mathematics</div>
+<div class="item">English</div>
+<div class="item">Science</div>
+<div class="item">Social Studies</div>
+<div class="item">Computer</div>
+<div class="item">Agriculture</div>
+</div>
+</div>
+
+<div class="card">
+<h2>👨‍🏫 Our Teachers</h2>
+<p>✅ Dedicated qualified teachers<br>✅ Small class sizes<br>✅ Extra lessons for Grade 7, 9 and 12<br>✅ Computer Lab & Library</p>
+</div>
+
+<div class="card">
+<h2>📍 Contact - Kalabo</h2>
+<p><b>Location:</b> Kalabo, Western Province, Zambia<br>
+<b>Phone:</b> +260 97X XXX XXX<br>
+<b>Email:</b> myschoolzambia@gmail.com<br><br>
+<b>School Hours:</b> 07:30 - 16:00 Mon-Fri</p>
+</div>
+
+<div class="footer">
+<p>My School Zambia - Kalabo PWA<br>© 2026 All Rights Reserved<br>Made with ❤️ in Zambia</p>
+</div>
+
+<script>
+let deferredPrompt;
+const installBox = document.getElementById('installPrompt');
+const installBtn = document.getElementById('installBtn');
+
+window.addEventListener('beforeinstallprompt', (e)=>{
+ e.preventDefault();
+ deferredPrompt = e;
+ installBox.style.display='block';
+});
+
+installBtn.addEventListener('click', async()=>{
+ if(deferredPrompt){
+  deferredPrompt.prompt();
+  const {outcome}=await deferredPrompt.userChoice;
+  if(outcome==='accepted'){installBox.innerHTML='✅ App Installing! Check your home screen!';}
+  deferredPrompt=null;
+ }else{
+  alert('To Install:\nAndroid: Tap ⋮ menu → Install app / Add to Home screen\n\niPhone: Tap Share button → Add to Home Screen');
+ }
+});
+
+window.addEventListener('appinstalled', ()=>{
+ installBox.style.display='none';
+});
+
+if('serviceWorker' in navigator){
+ navigator.serviceWorker.register('data:text/javascript;base64,'+btoa("self.addEventListener('fetch',e=>{e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)))});"));
+}
+</script>
+</body>
+  </html>
